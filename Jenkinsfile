@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Kaynak kodu GitHub'dan çekiyoruz
-                git 'https://github.com/EbruAzkul/YMGFinal.git'
+                git branch: 'main', url: 'https://github.com/EbruAzkul/YMGFinal.git'
             }
         }
         stage('Build') {
