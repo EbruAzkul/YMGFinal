@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_COMPOSE_VERSION = '1.29.2'
         COMPOSE_FILE = 'docker-compose.yml' // Docker Compose dosya adı
-        PROJECT_NAME = 'myproject' // Docker Compose proje adı
+        PROJECT_NAME = 'myproject' // Docker Compose proje adiiii
     }
 
     stages {
