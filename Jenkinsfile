@@ -2,31 +2,26 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_COMPOSE_VERSION = '1.29.2'
-        COMPOSE_FILE = 'docker-compose.yml' // Docker Compose dosya adı
-        PROJECT_NAME = 'myproject' // Docker Compose proje adı
+        DOCKER_IMAGE = 'your-docker-image-name'
     }
 
     stages {
-        stage('Checkout') {
+        stage('Build') {
             steps {
-                // GitHub'dan kodu çek
-                git branch: 'main', url: 'https://github.com/EbruAzkul/YMGFinal.git'
+                script {
+                    docker.build(DOCKER_IMAGE, '-f Dockerfile .')
+                }
             }
         }
 
-        
-    }
-
-    post {
-        success {
-            echo 'Pipeline başarıyla tamamlandı.'
-        }
-        failure {
-            echo 'Pipeline başarısız oldu.'
-            script {
-                // Docker Compose ile çalışan servisleri durdur
-                sh "docker-compose -f ${COMPOSE_FILE} -p ${PROJECT_NAME} down"
+        stage('Deploy') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.example.com', 'docker-hub-credentials') {
+                        docker.image(DOCKER_IMAGE).push()
+                    }
+                    sh 'docker-compose -f docker-compose.yml up -d'
+                }
             }
         }
     }
