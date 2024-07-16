@@ -1,35 +1,30 @@
 pipeline {
     agent any
-    
+
     stages {
         stage('Build') {
             steps {
-                // Örnek bir build adımı
-                sh 'mvn clean package'
+                sh 'echo "Building..."'
             }
         }
         stage('Test') {
             steps {
-                // Örnek bir test adımı
-                sh 'mvn test'
+                sh 'echo "Testing..."'
             }
         }
         stage('Deploy') {
             steps {
-                // Örnek bir deploy adımı
-                sh 'mvn deploy'
+                sh 'echo "Deploying..."'
             }
         }
     }
-    
+
     post {
         success {
-            // Başarı durumunda yapılacaklar
-            echo 'Proje başarıyla derlendi ve dağıtıldı.'
+            echo 'Pipeline başarıyla tamamlandı.'
         }
         failure {
-            // Hata durumunda yapılacaklar
-            echo 'Proje derleme veya dağıtma aşamasında hata oluştu.'
+            echo 'Pipeline başarısız oldu.'
         }
     }
 }
