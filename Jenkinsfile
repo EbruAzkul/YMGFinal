@@ -20,7 +20,7 @@ pipeline {
                     sh 'chmod +x /usr/local/bin/docker-compose'
                 }
                 // Docker Compose kullanarak servisi build ediyoruz
-                sh 'docker-compose build'
+                sh 'docker-compose build --no-cache'
             }
         }
         stage('Deploy') {
@@ -37,6 +37,10 @@ pipeline {
         }
         failure {
             echo 'Pipeline başarısız oldu.'
+            script {
+                // Docker Compose ile çalışan servisleri durdur
+                sh 'docker-compose down'
+            }
         }
     }
 }
