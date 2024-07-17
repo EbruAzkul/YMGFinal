@@ -1,32 +1,22 @@
 pipeline {
     agent any
-
-    environment {
-        DOCKER_COMPOSE_VERSION = '1.29.2'
-        COMPOSE_FILE = 'docker-compose.yml' // Docker Compose dosya adı
-        PROJECT_NAME = 'myproject' // Docker Compose proje adı
-    }
-
     stages {
-        stage('Checkout') {
+        stage('Build') {
             steps {
-                // GitHub'dan kodu çek
-                git branch: 'main', url: 'https://github.com/EbruAzkul/YMGFinal.git'
+                echo 'Building...'
+                // örnek: sh 'mvn clean install'
             }
         }
-
-        
-    }
-
-    post {
-        success {
-            echo 'Pipeline başarıyla tamamlandı....'
+        stage('Test') {
+            steps {
+                echo 'Testing...'
+                // örnek: sh 'mvn test'
+            }
         }
-        failure {
-            echo 'Pipeline başarısız oldu.'
-            script {
-                // Docker Compose ile çalışan servisleri durdur
-                sh "docker-compose -f ${COMPOSE_FILE} -p ${PROJECT_NAME} down"
+        stage('Deploy') {
+            steps {
+                echo 'Deploying...'
+                // örnek: sh 'scp target/*.war user@server:/path/to/deploy'
             }
         }
     }
