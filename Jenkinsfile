@@ -19,6 +19,7 @@ pipeline {
                 script {
                     echo 'Deploying with Docker Compose...'
                     sh 'docker-compose up -d'
+                    sh 'docker-compose ps'  // Servislerin durumunu kontrol etmek için
                 }
             }
         }
@@ -26,6 +27,7 @@ pipeline {
             steps {
                 script {
                     echo 'Running tests...'
+                    sh 'docker ps'  // Mevcut container'ları listelemek için
                     sh 'docker exec ${COMPOSE_PROJECT_NAME}_glassfish_1 ./run_tests.sh'
                 }
             }
